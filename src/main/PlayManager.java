@@ -6,7 +6,12 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+import mino.Block;
+import mino.Mino;
+import mino.Mino_L1;
+
 public class PlayManager {
+    // Main Play Area
     final int WIDTH = 360;
     final int HEIGHT = 600;
     public static int left_x;
@@ -14,15 +19,28 @@ public class PlayManager {
     public static int top_y;
     public static int bottom_y;
 
+    // Mino
+    Mino currentMino;
+    final int MINO_START_X;
+    final int MINO_START_Y;
+
     public PlayManager(){
+        // Main Play Area frame
         left_x = (GamePanel.WIDTH / 2) - (WIDTH / 2);
         right_x = left_x + WIDTH;
         top_y = 50;
         bottom_y = (GamePanel.HEIGHT / 2) - (HEIGHT / 2);
+
+        MINO_START_X = left_x + (WIDTH/2) - Block.SIZE;
+        MINO_START_Y = bottom_y + Block.SIZE;
+
+        // Set starting Mino
+        currentMino = new Mino_L1();
+        currentMino.setXY(MINO_START_X, MINO_START_Y);
     }
 
     public void update(){
-
+        currentMino.update();
     }
 
     public void draw(Graphics2D g2){
@@ -38,5 +56,10 @@ public class PlayManager {
         g2.setFont(new Font("Arial",Font.PLAIN, 30));
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.drawString("NEXT MINO", x + 20, y + 50);
+
+        // Draw current Mino
+        if(currentMino != null){
+            currentMino.draw(g2);
+        }
     }
 }
